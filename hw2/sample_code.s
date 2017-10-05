@@ -112,29 +112,25 @@ result:
 	sw	$s4, output	# output <= $s4	
 	move	$a0, $s4
 	bal	itoa		# itoa($s4)
-	
-	# TODO: store return array to output_ascii
-
 	j	ret
 
 itoa:
     # Input: ($a0 = input integer)
     # Output: ( output_ascii )
-    # TODO: (you should turn an integer into a printable char
-    # with the right ASCII code to output_ascii)
-    addi    $t0, $zero, 10
-    addi    $a1, $zero, 4
+    # TODO: (you should turn an integer into a printable char with the right ASCII code to output_ascii)
+    addi    $t0, $zero, 10	# divider
+    addi    $a1, $zero, 4	# counter
     la      $v0, output_ascii
-    addi    $v0, $v0, 3
+    addi    $v0, $v0, 3		# the first byte
 
     loop:
         addi    $a1, $a1, -1
         div     $a0, $t0
-        mflo    $a0
-        mfhi    $t1
-        addi    $t1, $t1, 48
+        mflo    $a0				# num /= 10
+        mfhi    $t1				# num % 10 => $t1
+        addi    $t1, $t1, 48	# turn to ascii
         sb      $t1, 0($v0)
-        addi    $v0, $v0, -1
+        addi    $v0, $v0, -1	# shift one byte each time
         bne     $a1, $zero, loop
 
     jr  $ra     # return
