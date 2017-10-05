@@ -11,9 +11,9 @@
 # TODO : change the file name/path to access the files
 # NOTE : Before you submit the code, make sure these two fields are "input.txt" and "output.txt"
 	file_in:
-		.asciiz	"input.txt"
+		.asciiz	"/Users/w4a2y4/Desktop/CA/CA2017/hw2/input.txt"
 	file_out:
-		.asciiz	"output.txt"
+		.asciiz	"/Users/w4a2y4/Desktop/CA/CA2017/hw2/output.txt"
 		
 # the following data is only for sample demonstration		
 	output_ascii:	
@@ -79,19 +79,30 @@
 #STEP4 integer operations
 	# TODO: operation selector
     # hint: you could write multiple "if (operator==??)then(...)" structures below
-	
+	beq $s3, '+', addition
+	beq $s3, '-', substraction
+	beq $s3, '*', multiplication
+	beq $s3, '/', division
+	# exit immediatly if the operator is'nt supported
+	j exit
 
 addition:
 	add	$s4, $s1, $s2	# $s4 <= $s1 + $s2
 	j result
 
 substraction:
+	sub $s4, $s1, $s2	# $s4 <= $s1 - $s2	
 	j result
 
 multiplication:
+	mult $s1, $s2 		# (Hi,Lo) = $s1 * $s2
+	mflo $s4 			# $s4 <= Lo
 	j result
 
 division:
+	beq $s2, $zero, exit	# exit immediatly if divide by zero
+	div $s1, $s2
+	mflo $s4
 	j result
 
 	
@@ -109,7 +120,34 @@ result:
 itoa:
 	# Input: ($a0 = input integer)
 	# Output: ( output_ascii )
-	# TODO: (you should turn an integer into a pritable char with the right ASCII code to output_ascii)
+	# TODO: (you should turn an integer into a printable char
+	# with the right ASCII code to output_ascii)
+	or 	$v0, $zero, $zero
+	or 	$t0, $zero, $zero
+	la	$v0, output_ascii
+	# 1st bit
+	addi 	$t1, $zero, 1000
+	div 	$a0, $t1
+	mflo	$t0
+	mfhi	$a0
+	addi 	$t0, $t0, 48
+	sb 		$t0, 0($v0)
+	# 2nd bit
+	addi 	$t1, $zero, 100
+	div 	$a0, $t1
+	mflo	$t0
+	mfhi	$a0
+	addi 	$t0, $t0, 48
+	sb 		$t0, 1($v0)
+	# 3&4th bit
+	addi 	$t1, $zero, 10
+	div 	$a0, $t1
+	mflo	$t0
+	mfhi	$a0
+	addi 	$t0, $t0, 48
+	sb 		$t0, 2($v0)
+	addi 	$a0, $a0, 48
+	sb 		$a0, 3($v0)
 
 	jr	$ra		# return
 
@@ -149,8 +187,10 @@ ret:
 	move	$a0, $s4	# $a0 <= $s4 = fd_out
 	syscall				# close file
 
+	j exit
 
-# exit
+
+exit:
 
 	li	$v0, 10
 	syscall
