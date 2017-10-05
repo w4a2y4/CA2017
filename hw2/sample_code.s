@@ -118,39 +118,26 @@ result:
 	j	ret
 
 itoa:
-	# Input: ($a0 = input integer)
-	# Output: ( output_ascii )
-	# TODO: (you should turn an integer into a printable char
-	# with the right ASCII code to output_ascii)
-	or 	$v0, $zero, $zero
-	or 	$t0, $zero, $zero
-	la	$v0, output_ascii
-	# 1st bit
-	addi 	$t1, $zero, 1000
-	div 	$a0, $t1
-	mflo	$t0
-	mfhi	$a0
-	addi 	$t0, $t0, 48
-	sb 		$t0, 0($v0)
-	# 2nd bit
-	addi 	$t1, $zero, 100
-	div 	$a0, $t1
-	mflo	$t0
-	mfhi	$a0
-	addi 	$t0, $t0, 48
-	sb 		$t0, 1($v0)
-	# 3&4th bit
-	addi 	$t1, $zero, 10
-	div 	$a0, $t1
-	mflo	$t0
-	mfhi	$a0
-	addi 	$t0, $t0, 48
-	sb 		$t0, 2($v0)
-	addi 	$a0, $a0, 48
-	sb 		$a0, 3($v0)
+    # Input: ($a0 = input integer)
+    # Output: ( output_ascii )
+    # TODO: (you should turn an integer into a printable char
+    # with the right ASCII code to output_ascii)
+    addi    $t0, $zero, 10
+    addi    $a1, $zero, 4
+    la      $v0, output_ascii
+    addi    $v0, $v0, 3
 
-	jr	$ra		# return
+    loop:
+        addi    $a1, $a1, -1
+        div     $a0, $t0
+        mflo    $a0
+        mfhi    $t1
+        addi    $t1, $t1, 48
+        sb      $t1, 0($v0)
+        addi    $v0, $v0, -1
+        bne     $a1, $zero, loop
 
+    jr  $ra     # return
 
 
 ret:
