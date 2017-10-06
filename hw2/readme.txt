@@ -6,8 +6,8 @@ CA2017 hw2 by b04902079甯芝蓶
 1) operations:
 	- Use 'beq' to perform 'if' statements.
 	- Use 'add', 'sub', 'mut', 'div' to perform integer operations.
-	- If input is invalid, jump to 'ret' immediately. Then, the program would simply
-	  print 'XXXX' to output file and quit. (Because 'output_ascii' is set to 'XXXX' by default.)
+	- If input is invalid, jump to 'invalid', which write 'XXXX' to output_ascii.
+	  Then jump to 'ret', which write output_ascii to the output file and quit.
 
 2) itoa:
 	- I wrote a subfunction 'loop', which is similar to the for loop in C
