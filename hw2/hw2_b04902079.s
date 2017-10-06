@@ -83,8 +83,8 @@
 	beq $s3, '-', substraction
 	beq $s3, '*', multiplication
 	beq $s3, '/', division
-	# exit immediatly if the operator is'nt supported
-	j exit
+	# exit immediatly if the operator isn't supported
+	j ret
 
 addition:
 	add	$s4, $s1, $s2	# $s4 <= $s1 + $s2
@@ -100,8 +100,8 @@ multiplication:
 	j result
 
 division:
-	beq $s2, $zero, exit	# exit immediatly if divide by zero
-	div $s1, $s2
+	beq $s2, $zero, ret	# exit immediatly if divide by zero
+	div $s1, $s2 		# Lo = $s1 / $s2
 	mflo $s4
 	j result
 
@@ -128,7 +128,7 @@ itoa:
         div     $a0, $t0
         mflo    $a0				# num /= 10
         mfhi    $t1				# num % 10 => $t1
-        addi    $t1, $t1, 48	# turn to ascii
+        addi    $t1, $t1, 48	# convert to ascii
         sb      $t1, 0($v0)
         addi    $v0, $v0, -1	# shift one byte each time
         bne     $a1, $zero, loop
