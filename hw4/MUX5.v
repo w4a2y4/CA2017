@@ -1,10 +1,10 @@
 module MUX5 
-{
+(
     data1_i,
     data2_i,
     select_i,
     data_o
-}
+);
 
 input	[4:0]	data1_i;
 input	[4:0]	data2_i;

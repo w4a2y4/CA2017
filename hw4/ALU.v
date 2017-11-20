@@ -1,11 +1,11 @@
 module ALU
-{
-    .data1_i,
-    .data2_i,
-    .ALUCtrl_i,
-    .data_o,
-    .Zero_o
-}
+(
+    data1_i,
+    data2_i,
+    ALUCtrl_i,
+    data_o,
+    Zero_o
+);
 
 input	[31:0]	data1_i, data2_i;
 input	[2:0]	ALUCtrl_i;

@@ -1,11 +1,11 @@
 module Control
-{
-    .Op_i,
-    .RegDst_o,
-    .ALUOp_o,
-    .ALUSrc_o,
-    .RegWrite_o
-}
+(
+    Op_i,
+    RegDst_o,
+    ALUOp_o,
+    ALUSrc_o,
+    RegWrite_o
+);
 
 input 	[5:0]	Op_i;
 output	RegDst_o;
