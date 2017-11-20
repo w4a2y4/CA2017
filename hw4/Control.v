@@ -13,6 +13,9 @@ output	[1:0]	ALUOp_o;
 output	ALUSrc_o;
 output	RegWrite_o;
 
+reg	RegDst_o, ALUSrc_o, RegWrite_o;
+reg	[1:0]	ALUOp_o;
+
 always @( Op_i ) begin
 	// R-type
 	case( Op_i )
